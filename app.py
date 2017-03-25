@@ -11,6 +11,7 @@ from flask import Flask, request
 app = Flask(__name__)
 logger = logging.getLogger(__name__)
 
+
 @app.route('/', methods=['GET'])
 def verify():
     # when the endpoint is registered as a webhook, it must echo back
@@ -74,8 +75,9 @@ def send_message(recipient_id, message_text, add_button=False):
         post_request_data['message'] = {
                         'text': message_text,
                         }
+    json_post_request_data = json.dumps(post_request_data)
     response = requests.post('https://graph.facebook.com/v2.6/me/messages', headers=headers,
-                             params=params, data=post_request_data)
+                             params=params, data=json_post_request_data)
     if response.status_code != 200:
         logger.error(response.status_code)
         logger.error(response.text)
