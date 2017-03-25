@@ -41,14 +41,14 @@ def echo_message(messaging_event):
     ''' For thorough description of messaging events,
         see https://developers.facebook.com/docs/messenger-platform/webhook-reference/message
     '''
-    if not messaging_event.get('message'):
+    if 'message' not in messaging_event:
         return
     sender_id = messaging_event['sender']['id']
     timestamp = messaging_event['timestamp']
     text_received = messaging_event['message']['text']
     
     text_to_send = 'Your id is {0}.  You\'ve sent a message with the  timestamp {1}'\
-                   ' and the following text: "{2}"'.format(sender_id, time, text_received)
+                   ' and the following text: "{2}"'.format(sender_id, timestamp, text_received)
     send_message(sender_id, text_to_send)
 
 
