@@ -70,7 +70,9 @@ def send_message(recipient_id, message_text, add_button=False):
                 },
             }
     if add_button:
-        post_request_data['message'] = form_cool_button(message_text)
+        post_request_data['message'] = {
+                        'attachment': form_cool_button(message_text),
+                        }
     else:
         post_request_data['message'] = {
                         'text': message_text,
