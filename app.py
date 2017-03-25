@@ -43,6 +43,8 @@ def echo_message(messaging_event):
     '''
     if 'message' not in messaging_event:
         return
+    if 'text' not in messaging_event['message']:  # happens when user sends a like
+        return
     sender_id = messaging_event['sender']['id']
     timestamp = messaging_event['timestamp']
     text_received = messaging_event['message']['text']
