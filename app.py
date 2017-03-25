@@ -51,30 +51,50 @@ def echo_message(messaging_event):
     
     text_to_send = 'Your id is {0}.  You\'ve sent a message with the  timestamp {1}'\
                    ' and the following text: "{2}"'.format(sender_id, timestamp, text_received)
-    send_message(sender_id, text_to_send)
+    send_message(sender_id, text_to_send, add_button=True)
 
 
-def send_message(recipient_id, message_text):
+def send_message(recipient_id, message_text, add_button=False):
     headers = {
             'Content-Type': 'application/json',
             }
     params = {
             'access_token': os.environ['PAGE_ACCESS_TOKEN'],
             }
-    post_request_data = json.dumps({
+
+    post_request_data = {
             'recipient': {
                 'id': recipient_id,
                 },
-            'message': {
-                'text': message_text,
-                },
-            })
+            }
+    if add_button:
+        post_request_data['message'] = form_cool_button(message_text)
+    else:
+        post_request_data['message'] = {
+                        'text': message_text,
+                        }
     response = requests.post('https://graph.facebook.com/v2.6/me/messages', headers=headers,
                              params=params, data=post_request_data)
     if response.status_code != 200:
         logger.error(response.status_code)
         logger.error(response.text)
 
-    
+
+def form_cool_button(message_text):
+    return {
+        'type': 'template',
+        'payload': {
+            'template_type': 'button',
+            'text': message_text,
+            'buttons': [
+                {
+                    'type': 'postback',
+                    'title': 'Cool!',
+                    'payload': 'COOL',
+                }
+            ]
+        }
+    }
+
 if __name__ == '__main__':
     app.run(debug=True)
