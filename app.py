@@ -47,9 +47,8 @@ def echo_message(messaging_event):
     timestamp = messaging_event['timestamp']
     text_received = messaging_event['message']['text']
     
-    time = datetime.datetime.utcfromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
-    text_to_send = 'Your id is {0}. At {1}, you\'ve sent a message with the'\
-                   'following text: "{2}"'.format(sender_id, time, text_received)
+    text_to_send = 'Your id is {0}.  You\'ve sent a message with the  timestamp {1}'\
+                   ' and the following text: "{2}"'.format(sender_id, time, text_received)
     send_message(sender_id, text_to_send)
 
 
