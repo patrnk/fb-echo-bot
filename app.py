@@ -53,7 +53,7 @@ def echo_message(messaging_event):
     send_message(sender_id, text_to_send)
 
 
-def send_message(recipient_id, message_text);
+def send_message(recipient_id, message_text):
     headers = {
             'Content-Type': 'application/json',
             }
