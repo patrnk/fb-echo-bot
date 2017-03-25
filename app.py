@@ -11,6 +11,8 @@ from flask import Flask, request
 app = Flask(__name__)
 logger = logging.getLogger(__name__)
 
+COOL_BUTTON_PAYLOAD = 'COOL'
+
 
 @app.route('/', methods=['GET'])
 def verify():
@@ -36,6 +38,7 @@ def webhook():
     for entry in facebook_request['entry']:
         for messaging_event in entry['messaging']:
             echo_message(messaging_event)
+            react_to_cool_button(messaging_event)
     return SUCCESS
 
 
@@ -95,11 +98,23 @@ def form_cool_button(message_text):
                 {
                     'type': 'postback',
                     'title': 'Cool!',
-                    'payload': 'COOL',
+                    'payload': COOL_BUTTON_PAYLOAD,
                 }
             ]
         }
     }
+
+
+def react_to_cool_button(messaging_event):
+    if 'postback' not in messaging_event:
+        return
+    if 'payload' not in messaging_event['postback']:
+        return
+    if messaging_event['postback']['payload'] != COOL_BUTTON_PAYLOAD:
+        return
+    sender_id = messaging_event['sender']['id']
+    send_message(sender_id, 'Thank you!')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
