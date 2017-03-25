@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+import logging
 import datetime
 
 import requests
@@ -8,7 +9,7 @@ from flask import Flask, request
 
 
 app = Flask(__name__)
-
+logger = logging.getLogger(__name__)
 
 @app.route('/', methods=['GET'])
 def verify():
