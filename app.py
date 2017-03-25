@@ -21,7 +21,7 @@ def verify():
 
     return '''
     This is a 
-    <a>href=https://www.facebook.com/Cryptic-tor-11398-134739810390203>Facebook bot</a>
+    <a href=https://www.facebook.com/Cryptic-tor-11398-134739810390203>Facebook bot</a>
     ''', 200
 
 
